@@ -1,0 +1,131 @@
+# docker-compose.prod.yml
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        - uid=${UID:-1000}
+    container_name: nativemeta-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+      - ./storage:/var/www/html/storage
+    environment:
+      - PHP_OPCACHE_ENABLE=1
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - nativemeta
+    # On enlève le port 5173, il ne sera exposé qu'en local pour le dev
+
+  nginx:
+    image: nginx:alpine
+    container_name: nativemeta-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443" # On ajoute le port 443 pour HTTPS
+    volumes:
+      - .:/var/www/html
+      # On va utiliser une nouvelle config Nginx pour la prod
+      - ./docker/nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf
+      # Volumes pour les certificats SSL
+      - ./docker/nginx/certs:/etc/nginx/certs
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf:/etc/letsencrypt/:ro
+    depends_on:
+      - app
+    networks:
+      - nativemeta
+
+  mysql:
+    image: mysql:8.0
+    container_name: nativemeta-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-nativemeta}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-nativemeta}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # On commente le port 3306 pour ne pas l'exposer sur l'extérieur en prod
+    # ports:
+    #   - "3306:3306"
+    networks:
+      - nativemeta
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: nativemeta-phpmyadmin
+    restart: unless-stopped
+    # On ne veut pas exposer phpmyadmin en production comme ça.
+    # A supprimer ou protéger par mot de passe. On le commente pour l'instant.
+    # ports:
+    #   - "8080:80"
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+    networks:
+      - nativemeta
+    # Pour y accéder en dev, on pourrait utiliser un tunnel SSH.
+
+  redis:
+    image: redis:alpine
+    container_name: nativemeta-redis
+    restart: unless-stopped
+    # ports:
+    #   - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - nativemeta
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: nativemeta-mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025" # Garder l'interface web accessible ?
+      - "1025:1025"
+    networks:
+      - nativemeta
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        - uid=${UID:-1000}
+    container_name: nativemeta-queue
+    restart: unless-stopped
+    command: php artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - redis
+      - mysql
+    networks:
+      - nativemeta
+
+  # Nouveau service pour Certbot
+  certbot:
+    image: certbot/certbot:latest
+    container_name: nativemeta-certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot/:rw
+      - ./certbot/conf:/etc/letsencrypt/:rw
+    networks:
+      - nativemeta
+    # On ne le lance pas en continu, on l'appellera avec docker-compose run
+
+networks:
+  nativemeta:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
