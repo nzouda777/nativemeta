@@ -1,0 +1,109 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        - uid=${UID:-1000}
+    container_name: nativemeta-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+      - ./storage:/var/www/html/storage
+    environment:
+      - PHP_OPCACHE_ENABLE=1
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "5173:5173"
+    networks:
+      - nativemeta
+
+  nginx:
+    image: nginx:alpine
+    container_name: nativemeta-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - nativemeta
+
+  mysql:
+    image: mysql:8.0
+    container_name: nativemeta-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-nativemeta}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-nativemeta}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - nativemeta
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: nativemeta-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+    networks:
+      - nativemeta
+
+  redis:
+    image: redis:alpine
+    container_name: nativemeta-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - nativemeta
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: nativemeta-mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - nativemeta
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        - uid=${UID:-1000}
+    container_name: nativemeta-queue
+    restart: unless-stopped
+    command: php artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - redis
+      - mysql
+    networks:
+      - nativemeta
+
+networks:
+  nativemeta:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
