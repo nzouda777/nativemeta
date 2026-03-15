@@ -32,7 +32,7 @@ export default function Layout({ children }) {
                     },
                     success: {
                         iconTheme: {
-                            primary: '#F59E0B',
+                            primary: '#f59e0b',
                             secondary: '#fff',
                         },
                     },

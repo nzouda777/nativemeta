@@ -30,7 +30,7 @@ class RevenueChart extends ChartWidget
                 [
                     'label' => 'Revenus (€)',
                     'data' => $data->pluck('revenue')->toArray(),
-                    'borderColor' => '#F59E0B',
+                    'borderColor' => '#f59e0b',
                     'backgroundColor' => 'rgba(245, 158, 11, 0.1)',
                     'fill' => true,
                     'tension' => 0.4,

@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
         // ─── Categories ───
         $ecommerce = Category::firstOrCreate(
             ['slug' => 'e-commerce'],
-            ['name' => 'E-Commerce', 'description' => 'Maîtrise les stratégies e-commerce', 'icon' => '🛒', 'color' => '#F59E0B', 'order' => 1]
+            ['name' => 'E-Commerce', 'description' => 'Maîtrise les stratégies e-commerce', 'icon' => '🛒', 'color' => '#f59e0b', 'order' => 1]
         );
 
         $marketing = Category::firstOrCreate(

@@ -24,7 +24,7 @@ export default function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
                 <Link href="#" className="flex items-center gap-2 group">
-                    <div className="w-10 h-10 bg-gold text-black rounded-xl flex items-center justify-center font-inter text-xl font-bold group-hover:rotate-12 transition-transform shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+                    <div className="w-10 h-10 bg-gold text-black rounded-xl flex items-center justify-center font-inter text-xl font-bold group-hover:rotate-12 transition-transform shadow-[0_0_20px_rgba(45,127,249,0.3)]">
                         N
                     </div>
                     <span className="font-inter text-2xl font-bold tracking-tight">

@@ -96,7 +96,7 @@ Le site doit avoir un design **premium, immersif et moderne**. Palette sombre av
 
 **Palette de couleurs :**
 ```css
---primary: #F59E0B (Ambre doré)
+--primary: #f59e0b (Ambre doré)
 --secondary: #0F172A (Bleu nuit profond)
 --accent: #6366F1 (Indigo électrique)
 --dark: #020817

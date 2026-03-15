@@ -12,9 +12,9 @@ export default {
                 'dark': '#0A0A0B',
                 'dark-lighter': '#121214',
                 'gold': {
-                    'light': '#FCD34D',
-                    'DEFAULT': '#F59E0B',
-                    'dark': '#B45309',
+                    'light': '#2d7ff9',
+                    'DEFAULT': '#5b9bff',
+                    'dark': '#1a5fd0',
                 },
                 'primary': '#6366F1', // Indigo électrique
                 'secondary': '#4F46E5',
@@ -43,7 +43,7 @@ export default {
             },
             backgroundImage: {
                 'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
-                'gold-gradient': 'linear-gradient(135deg, #F59E0B 0%, #B45309 100%)',
+                'gold-gradient': 'linear-gradient(135deg, #f59e0b 0%, #B45309 100%)',
             },
             boxShadow: {
                 'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',

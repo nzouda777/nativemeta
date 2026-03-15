@@ -240,7 +240,7 @@ export default function CourseDetail({ course, userHasAccess }) {
                                                 <button
                                                     onClick={handlePurchase}
                                                     disabled={processing}
-                                                    className="btn-gold w-full text-xl !py-6 shadow-[0_30px_60px_-15px_rgba(245,158,11,0.3)] active:scale-95 border border-white/10"
+                                                    className="btn-gold w-full text-xl !py-6 shadow-[0_30px_60px_-15px_rgba(45,127,249,0.3)] active:scale-95 border border-white/10 font-inter"
                                                 >
                                                     {processing ? '...' : (showEmailStep && !auth.user ? 'Valider' : 'Rejoindre l\'Élite')}
                                                 </button>

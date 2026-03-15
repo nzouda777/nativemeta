@@ -35,7 +35,7 @@ export const useCustomCursor = () => {
         };
 
         const onMouseLeaveLink = () => {
-            gsap.to(cursor, { scale: 1, backgroundColor: '#F59E0B', duration: 0.3 });
+            gsap.to(cursor, { scale: 1, backgroundColor: '#f59e0b', duration: 0.3 });
             gsap.to(follower, { scale: 1, borderColor: 'rgba(245, 158, 11, 0.3)', duration: 0.3 });
         };
 
