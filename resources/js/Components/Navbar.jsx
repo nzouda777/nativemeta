@@ -28,7 +28,7 @@ export default function Navbar() {
                         N
                     </div>
                     <span className="font-inter text-2xl font-bold tracking-tight">
-                        Native<span className="text-gold">Meta</span>
+                        Native<span className="text-gold">Scale</span>
                     </span>
                 </Link>
 

@@ -139,7 +139,7 @@ export default function CourseDetail({ course, userHasAccess }) {
                                     <GlassCard key={i} className="!p-8 hover:border-gold/20 transition-colors">
                                         <div className="flex gap-1 mb-6">
                                             {[...Array(review.stars)].map((_, j) => (
-                                                <span key={j} className="text-gold text-xs">★</span>
+                                                <span key={j} className="text-[#f59e0b] text-xs">★</span>
                                             ))}
                                         </div>
                                         <p className="text-white/60 mb-8 font-inter leading-relaxed italic line-clamp-3">"{review.text}"</p>
@@ -240,7 +240,7 @@ export default function CourseDetail({ course, userHasAccess }) {
                                                 <button
                                                     onClick={handlePurchase}
                                                     disabled={processing}
-                                                    className="btn-gold w-full text-xl !py-6 shadow-[0_30px_60px_-15px_rgba(45,127,249,0.3)] active:scale-95 border border-white/10 font-inter"
+                                                    className="btn-gold w-full text-white !text-base !py-4 hover:text-dark shadow-[0_30px_60px_-15px_rgba(45,127,249,0.3)] active:scale-95 border border-white/10 font-inter"
                                                 >
                                                     {processing ? '...' : (showEmailStep && !auth.user ? 'Valider' : 'Rejoindre l\'Élite')}
                                                 </button>
@@ -285,7 +285,7 @@ export default function CourseDetail({ course, userHasAccess }) {
                             <button
                                 onClick={handlePurchase}
                                 disabled={processing}
-                                className="btn-gold !py-3 flex-1 text-sm font-inter shadow-[0_10px_30px_rgba(245,158,11,0.2)]"
+                                className="btn-gold !py-3 flex-1 text-white text-sm font-inter shadow-[0_10px_30px_rgba(245,158,11,0.2)]"
                             >
                                 {processing ? '...' : (showEmailStep && !auth.user ? 'Confirmer' : 'Prendre mon accès')}
                             </button>
