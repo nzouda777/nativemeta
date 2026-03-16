@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
-import { useCustomCursor } from '@/Hooks/useCustomCursor';
 import { useSmoothScroll } from '@/Hooks/useSmoothScroll';
 import { Toaster } from 'react-hot-toast';
 import FlashMessages from '@/Components/UI/FlashMessages';
 
 export default function Layout({ children }) {
-    useCustomCursor();
     useSmoothScroll();
 
     return (

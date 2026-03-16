@@ -1,29 +1,36 @@
 import { useEffect } from 'react';
-import Lenis from 'lenis';
 
 export const useSmoothScroll = () => {
     useEffect(() => {
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
+        // Optimized smooth scroll using CSS scroll-behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+        
+        // Remove any existing Lenis instance if present
+        if (window.lenis) {
+            window.lenis.destroy();
+            delete window.lenis;
         }
 
-        requestAnimationFrame(raf);
+        // Add performance optimizations
+        const handleScroll = () => {
+            requestAnimationFrame(() => {
+                // Debounced scroll handling for better performance
+                document.body.classList.add('scrolling');
+                clearTimeout(document.body.scrollTimeout);
+                document.body.scrollTimeout = setTimeout(() => {
+                    document.body.classList.remove('scrolling');
+                }, 150);
+            });
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
 
         return () => {
-            lenis.destroy();
+            document.documentElement.style.scrollBehavior = '';
+            window.removeEventListener('scroll', handleScroll);
+            if (document.body.scrollTimeout) {
+                clearTimeout(document.body.scrollTimeout);
+            }
         };
     }, []);
 };

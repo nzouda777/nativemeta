@@ -22,8 +22,5 @@
     <body class="font-sans antialiased text-white bg-[#0A0A0B]">
         @inertia
         
-        <!-- Custom Cursor elements -->
-        <div id="custom-cursor"></div>
-        <div id="custom-cursor-follower"></div>
-    </body>
+        </body>
 </html>
