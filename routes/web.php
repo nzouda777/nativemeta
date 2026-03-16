@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 | Public Routes
 |--------------------------------------------------------------------------
 */
-Route::domain('playbook.nativescale.com')->group(function () {
+Route::domain('playbook.nativescale.co')->group(function () {
     Route::get('/', [CourseController::class, 'show'])->name('playbook.home');
     Route::get('/{slug}', [CourseController::class, 'show'])->name('playbook.course');
 });
