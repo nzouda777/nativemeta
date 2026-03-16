@@ -91,9 +91,10 @@ services:
         - uid=${UID:-1000}
     container_name: nativemeta-queue
     restart: unless-stopped
-    command: php artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
+    command: /usr/bin/supervisord -c /docker/php/queue.conf
     volumes:
       - .:/var/www/html
+      - ./docker/php/queue.conf:/docker/php/queue.conf
     depends_on:
       - redis
       - mysql

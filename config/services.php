@@ -3,11 +3,16 @@
 return [
     'stripe' => [
         'mode' => env('STRIPE_MODE', 'test'),
-        'test_key' => env('STRIPE_TEST_PUBLIC_KEY'),
-        'test_secret' => env('STRIPE_TEST_SECRET_KEY'),
-        'live_key' => env('STRIPE_LIVE_PUBLIC_KEY'),
-        'live_secret' => env('STRIPE_LIVE_SECRET_KEY'),
-        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+        'test' => [
+            'key' => env('STRIPE_TEST_KEY'),
+            'secret' => env('STRIPE_TEST_SECRET'),
+            'webhook_secret' => env('STRIPE_TEST_WEBHOOK_SECRET'),
+        ],
+        'live' => [
+            'key' => env('STRIPE_LIVE_KEY'),
+            'secret' => env('STRIPE_LIVE_SECRET'),
+            'webhook_secret' => env('STRIPE_LIVE_WEBHOOK_SECRET'),
+        ],
         'currency' => env('STRIPE_CURRENCY', 'eur'),
     ],
 

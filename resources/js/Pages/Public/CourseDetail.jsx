@@ -230,6 +230,7 @@ export default function CourseDetail({ course, userHasAccess }) {
                                                         value={data.email}
                                                         onChange={e => setData('email', e.target.value)}
                                                         placeholder="nom@exemple.com"
+                                                        autoComplete="false"
                                                         className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white text-center focus:border-gold outline-none transition-all placeholder:text-white/10"
                                                         required
                                                     />

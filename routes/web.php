@@ -12,7 +12,7 @@ use App\Http\Controllers\Public\AboutController;
 use App\Http\Controllers\Public\CourseController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\LegalController;
-use App\Http\Controllers\Webhook\StripeController;
+use App\Http\Controllers\Admin\EmailSettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,6 +64,23 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes (Admin only)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:super-admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/stripe', [StripeSettingsController::class, 'index'])->name('stripe.index');
+    Route::post('/stripe/mode', [StripeSettingsController::class, 'updateMode'])->name('stripe.mode');
+    Route::post('/stripe/credentials', [StripeSettingsController::class, 'updateCredentials'])->name('stripe.credentials');
+    Route::post('/stripe/test', [StripeSettingsController::class, 'testConnection'])->name('stripe.test');
+    
+    Route::get('/email', [EmailSettingsController::class, 'index'])->name('email.index');
+    Route::post('/email/update', [EmailSettingsController::class, 'update'])->name('email.update');
+    Route::post('/email/test', [EmailSettingsController::class, 'testEmail'])->name('email.test');
+    Route::get('/email/logs', [EmailSettingsController::class, 'getLogs'])->name('email.logs');
+});
 
 /*
 |--------------------------------------------------------------------------

@@ -28,6 +28,7 @@ class StripeService
         return $key;
     }
 
+    
     /**
      * Get the active Stripe public key based on settings or env.
      */
@@ -60,9 +61,7 @@ class StripeService
     {
         $client = $this->getClient();
 
-        return $client->checkout->sessions->create([
-            'customer' => $customerId,
-            'customer_email' => $customerId ? null : $email,
+        $sessionData = [
             'line_items' => [[
                 'price_data' => [
                     'currency' => self::getCurrency(),
@@ -82,7 +81,16 @@ class StripeService
                 'course_id' => $course->id,
                 'user_email' => $email,
             ],
-        ]);
+        ];
+
+        // Utiliser soit customer_id soit customer_email, mais pas les deux
+        if ($customerId) {
+            $sessionData['customer'] = $customerId;
+        } else {
+            $sessionData['customer_email'] = $email;
+        }
+
+        return $client->checkout->sessions->create($sessionData);
     }
 
     /**

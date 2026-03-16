@@ -15,6 +15,8 @@ class InvitationService
      */
     public function createInvitation(Order $order): InvitationToken
     {
+        Log::info('Creating invitation token', ['email' => $order->email, 'order_id' => $order->id]);
+        
         $expiryDays = config('nativemeta.invitation_expiry_days', 7);
 
         $token = InvitationToken::create([
@@ -22,9 +24,20 @@ class InvitationService
             'order_id' => $order->id,
             'expires_at' => now()->addDays($expiryDays),
         ]);
+        
+        Log::info('Invitation token created', ['token_id' => $token->id, 'expires_at' => $token->expires_at]);
 
         // Send invitation email
-        Mail::to($order->email)->queue(new InvitationMail($token, $order));
+        try {
+            Mail::to($order->email)->queue(new InvitationMail($token, $order));
+            Log::info('Invitation email queued', ['email' => $order->email, 'token_id' => $token->id]);
+        } catch (\Exception $mailException) {
+            Log::error('Failed to queue invitation email', [
+                'email' => $order->email,
+                'token_id' => $token->id,
+                'error' => $mailException->getMessage(),
+            ]);
+        }
 
         activity()
             ->performedOn($token)

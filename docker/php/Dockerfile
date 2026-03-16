@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     autoconf \
     build-essential \
+    supervisor \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions - Split to avoid memory pressure on Mac
@@ -54,8 +55,11 @@ RUN mkdir -p /home/$user/.composer && \
 COPY . /var/www/html
 RUN chown -R $user:$user /var/www/html
 
+# Copy supervisor configuration
+COPY docker/php/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Change current user
 USER $user
 
 EXPOSE 9000
-CMD ["php-fpm"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

@@ -71,21 +71,55 @@ class EnrollmentService
      */
     public function processAfterPayment(Order $order): void
     {
-        $user = User::where('email', $order->email)->first();
+        try {
+            Log::info('Processing enrollment after payment', ['order_id' => $order->id, 'email' => $order->email]);
+            
+            $user = User::where('email', $order->email)->first();
+            Log::info('User lookup result', ['email' => $order->email, 'user_exists' => $user ? 'yes' : 'no']);
 
-        if ($user) {
-            // Existing user: grant access and link order
-            $order->update(['user_id' => $user->id]);
+            if ($user) {
+                // Existing user: grant access and link order
+                Log::info('Processing existing user', ['user_id' => $user->id]);
+                $order->update(['user_id' => $user->id]);
 
-            foreach ($order->items as $item) {
-                $this->grantAccess($user, $item->course, $order);
+                foreach ($order->items as $item) {
+                    $this->grantAccess($user, $item->course, $order);
+                    Log::info('Access granted', ['user_id' => $user->id, 'course_id' => $item->course->id]);
+                }
+
+                // Send confirmation email
+                Log::info('Sending purchase confirmation email to: ' . $user->email);
+                
+                try {
+                    Mail::to($user->email)->queue(new PurchaseConfirmationMail($order));
+                    Log::info('Purchase confirmation email queued for: ' . $user->email);
+                } catch (\Exception $mailException) {
+                    Log::error('Failed to queue purchase confirmation email', [
+                        'email' => $user->email,
+                        'error' => $mailException->getMessage(),
+                    ]);
+                }
+            } else {
+                // New user: create invitation token
+                Log::info('Creating invitation for new user: ' . $order->email);
+                
+                try {
+                    $token = app(InvitationService::class)->createInvitation($order);
+                    Log::info('Invitation created for: ' . $order->email, ['token_id' => $token->id]);
+                } catch (\Exception $invitationException) {
+                    Log::error('Failed to create invitation', [
+                        'email' => $order->email,
+                        'error' => $invitationException->getMessage(),
+                    ]);
+                }
             }
-
-            // Send confirmation email
-            Mail::to($user->email)->queue(new PurchaseConfirmationMail($order));
-        } else {
-            // New user: create invitation token
-            app(InvitationService::class)->createInvitation($order);
+            
+            Log::info('Enrollment processing completed', ['order_id' => $order->id]);
+        } catch (\Exception $e) {
+            Log::error('Error in processAfterPayment: ' . $e->getMessage());
+            Log::error('Order ID: ' . $order->id . ', Email: ' . $order->email);
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+            throw $e;
         }
     }
 

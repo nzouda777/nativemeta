@@ -46,8 +46,13 @@ class StripeController extends Controller
     private function handleCheckoutCompleted($session): void
     {
         try {
+            Log::info('Processing checkout completed', ['session_id' => $session->id]);
+            
             $order = $this->stripeService->createOrderFromSession($session);
+            Log::info('Order created', ['order_id' => $order->id, 'email' => $order->email]);
+            
             $this->enrollmentService->processAfterPayment($order);
+            Log::info('Enrollment processed', ['order_id' => $order->id]);
 
             activity()
                 ->performedOn($order)
@@ -57,10 +62,13 @@ class StripeController extends Controller
                     'stripe_session_id' => $session->id,
                 ])
                 ->log('Paiement Stripe complété');
+                
+            Log::info('Checkout completed successfully', ['session_id' => $session->id]);
         } catch (\Exception $e) {
             Log::error('Error processing checkout', [
                 'session_id' => $session->id,
                 'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
         }
     }

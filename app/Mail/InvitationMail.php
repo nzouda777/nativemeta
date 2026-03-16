@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use App\Models\InvitationToken;
-use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -16,12 +16,12 @@ class InvitationMail extends Mailable
 
     public function __construct(
         public readonly InvitationToken $token,
-        public readonly Order $order
+        public readonly OrderItem $order
     ) {}
 
     public function envelope(): Envelope
     {
-        $courseName = $this->order->items->first()?->course?->title ?? 'votre formation';
+        $courseName = $this->order->course?->title ?? 'votre formation';
         return new Envelope(
             subject: "🎉 Accède à ta formation {$courseName} - NativeMeta",
         );
@@ -33,7 +33,7 @@ class InvitationMail extends Mailable
             markdown: 'emails.invitation',
             with: [
                 'registerUrl' => url('/register?token=' . $this->token->token),
-                'courseName' => $this->order->items->first()?->course?->title ?? 'votre formation',
+                'courseName' => $this->order->course?->title ?? 'votre formation',
                 'expiresAt' => $this->token->expires_at->format('d/m/Y à H:i'),
             ],
         );
