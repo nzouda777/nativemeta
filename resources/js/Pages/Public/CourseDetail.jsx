@@ -195,7 +195,7 @@ export default function CourseDetail({ course, userHasAccess }) {
                                 <span className="inline-block px-4 py-1 bg-white/5 text-white/40 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-10">Accès Premium</span>
 
                                 <div className="flex items-baseline gap-4 mb-10">
-                                    <h2 className="text-6xl font-inter font-bold tracking-tighter text-gold">{course.effective_price}€</h2>
+                                    <h2 className="text-6xl font-inter font-bold tracking-tighter text-white">{course.effective_price}€</h2>
                                     {course.is_on_sale && (
                                         <span className="text-xl text-white/20 line-through font-light">{course.price}€</span>
                                     )}
@@ -280,7 +280,7 @@ export default function CourseDetail({ course, userHasAccess }) {
                         <div className="flex items-center gap-4">
                             <div className="flex flex-col">
                                 <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Total</span>
-                                <span className="text-xl font-inter font-bold text-gold">{course.effective_price}€</span>
+                                <span className="text-xl font-inter font-bold text-white">{course.effective_price}€</span>
                             </div>
                             <button
                                 onClick={handlePurchase}

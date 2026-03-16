@@ -42,8 +42,13 @@ class CourseController extends Controller
         ]);
     }
 
-    public function show(string $slug)
+    public function show(string $slug = 'native-ads-playbook-eu')
     {
+        // If accessing via playbook subdomain, default to the playbook course
+        if (request()->getHost() === 'playbook.nativescale.com') {
+            $slug = 'native-ads-playbook-eu';
+        }
+
         $course = Course::where('slug', $slug)
             ->published()
             ->with([

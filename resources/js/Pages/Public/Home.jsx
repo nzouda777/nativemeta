@@ -200,10 +200,10 @@ export default function Home({ courses, categories, stats }) {
 
                         <div className="grid md:grid-cols-12 gap-8 bento-grid">
                             <div className="md:col-span-12 lg:col-span-8 bento-item">
-                                <div className="h-full p-16 bg-white/[0.03] border border-white/5 rounded-[3rem] hover:bg-white/[0.05] transition-all duration-700 group overflow-hidden relative">
-                                    <div className="relative z-10">
+                                <div className="h-full md:p-16 py-12 px-2 bg-white/[0.03] border border-white/5 rounded-[3rem] hover:bg-white/[0.05] transition-all duration-700 group overflow-hidden relative">
+                                    <div className="relative z-10 md:block flex flex-col items-center justify-center text-center md:text-left">
                                         <span className="text-4xl mb-10 block">📡</span>
-                                        <h3 className="text-4xl font-clash font-bold mb-6 tracking-tight">VÉITABLE ACCOMPAGNEMENT</h3>
+                                        <h3 className="text-3xl font-clash font-bold mb-6 tracking-tight">VÉITABLE ACCOMPAGNEMENT</h3>
                                         <p className="text-white/40 text-lg leading-relaxed max-w-xl font-light">
                                             Tu n'es plus seul. Accède à une communauté fermée d'entrepreneurs qui scalent,
                                             échanges des stratégies en temps réel et obtiens du feedback sur tes projets.
@@ -213,8 +213,8 @@ export default function Home({ courses, categories, stats }) {
                                 </div>
                             </div>
 
-                            <div className="md:col-span-12 lg:col-span-4 bento-item">
-                                <div className="h-full p-16 bg-white text-dark rounded-[3rem] hover:bg-gold transition-colors duration-700 flex flex-col justify-between items-center text-center">
+                            <div className="md:col-span-12 lg:col-span-4  bento-item">
+                                <div className="h-full md:p-16 py-12 px-2 bg-white text-dark rounded-[3rem] hover:bg-gold transition-colors duration-700 flex flex-col justify-between items-center text-center">
                                     <span className="text-7xl">💎</span>
                                     <div>
                                         <h4 className="text-3xl font-clash font-bold mb-4 tracking-tighter">QUALITÉ 4K ELITE</h4>
