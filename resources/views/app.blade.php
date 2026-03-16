@@ -19,7 +19,7 @@
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased text-white bg-[#0A0A0B]">
+    <body class="font-sans antialiased text-white bg-[#0A0A0B]" oncontextmenu="return false" ondragstart="return false" onselectstart="return false" oncopy="return false" oncut="return false" onpaste="return false" onkeydown="return false" onkeyup="return false" onkeypress="return false" >
         @inertia
         
         </body>
