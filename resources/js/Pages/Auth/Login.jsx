@@ -23,15 +23,15 @@ export default function Login() {
                 <div className="w-full max-w-xl px-6">
                     <div className="text-center mb-16">
                         <span className="text-gold font-inter text-xs uppercase tracking-[0.4em] font-bold block mb-6">Accès Membre</span>
-                        <h1 className="text-4xl md:text-6xl font-inter font-bold tracking-tighter mb-6 underline decoration-white/10 underline-offset-8">
-                            CONTENT DE TE <span className="text-white/20">REVOIR.</span>
+                        <h1 className="text-2xl md:text-3xl font-inter font-bold tracking-tighter mb-6 underline decoration-white/10 underline-offset-8">
+                            CONTENT DE TE <span className="text-white/20">VOIR.</span>
                         </h1>
                         <p className="text-white/40 text-lg font-inter font-light">
                             Entre tes accès pour retrouver ton arsenal.
                         </p>
                     </div>
 
-                    <div className="glass-card !p-12 md:!p-16 border-white/5 shadow-2xl relative overflow-hidden">
+                    <div className="glass-card !px-6 py-12 md:!p-8 border-white/5 shadow-lg relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-3xl -z-10"></div>
 
                         <form onSubmit={handleSubmit} className="space-y-10">
@@ -79,7 +79,7 @@ export default function Login() {
                             <MagneticButton className="w-full">
                                 <button
                                     disabled={processing}
-                                    className="btn-gold w-full !py-6 text-xl shadow-[0_30px_60px_-15px_rgba(255,255,255,0.1)] active:scale-95 flex items-center justify-center gap-4"
+                                    className="btn-gold w-full !py-4  text-base px-8  shadow-[0_30px_60px_-15px_rgba(255,255,255,0.1)] active:scale-95 inline-flex items-center justify-center gap-4"
                                 >
                                     {processing ? 'Identification...' : 'Ouvrir mon espace →'}
                                 </button>
@@ -90,7 +90,7 @@ export default function Login() {
                     <p className="text-center text-[10px] text-white/20 mt-12 font-inter uppercase tracking-widest leading-loose">
                         Pas encore de compte ? <br />
                         Nos accès sont réservés aux acquéreurs de nos formations. <br />
-                        <Link href={route('courses.index')} className="text-gold font-black mt-2 inline-block border-b border-gold/20 pb-1">Découvrir le catalogue</Link>
+                        {/* <Link href={route('courses.index')} className="text-gold font-black mt-2 inline-block border-b border-gold/20 pb-1">Découvrir le catalogue</Link> */}
                     </p>
                 </div>
             </section>

@@ -58,9 +58,9 @@ export default function Navbar() {
                             <Link href={route('login')} className="text-[10px] uppercase tracking-[0.2em] font-inter font-bold text-white/50 hover:text-gold transition-colors">
                                 Connexion
                             </Link>
-                            <Link href={route('register')} className="btn-gold !py-3 !px-8">
+                            {/* <Link href={route('register')} className="btn-gold !py-3 !px-8">
                                 S'inscrire
-                            </Link>
+                            </Link> */}
                         </div>
                     )}
                 </div>
@@ -88,7 +88,7 @@ export default function Navbar() {
                     ) : (
                         <div className="flex flex-col gap-6">
                             <Link href={route('login')} className="text-2xl font-inter font-bold">Connexion</Link>
-                            <Link href={route('register')} className="py-4 bg-white text-dark rounded-full font-inter font-bold text-xl">S'inscrire</Link>
+                            {/* <Link href={route('register')} className="py-4 bg-white text-dark rounded-full font-inter font-bold text-xl">S'inscrire</Link> */}
                         </div>
                     )}
                 </div>

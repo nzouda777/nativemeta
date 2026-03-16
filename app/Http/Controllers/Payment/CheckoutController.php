@@ -130,6 +130,24 @@ class CheckoutController extends Controller
                     $user->save();
                     \Log::info('Password: ' . $password);
                     \Log::info('Order Item: ' . $order);
+                    // ajouter l'utilisateur a la formation qu'il a achete
+                    // Créer l'enrollment pour donner accès immédiat
+                    try {
+                        $enrollment = \App\Models\Enrollment::updateOrCreate(
+                            [
+                                'user_id' => $user->id,
+                                'course_id' => $orderItem->course_id,
+                            ],
+                        [
+                            'enrolled_at' => now(),
+                            'expires_at' => now()->addYear(1), // Accès valable 1 an
+                            'order_id' => $order->id,
+                        ]
+                    );
+                    \Log::info('Enrollment created/updated', ['user_id' => $user->id, 'course_id' => $order->course_id, 'status' => 'active']);
+                    } catch (\Exception $e) {
+                        \Log::error('Failed to create enrollment: ' . $e->getMessage());
+                    }
                     // send welcome email with credentials
                     try {
                         \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\WelcomeWithCredentialsMail($user, $password, $order));

@@ -24,21 +24,7 @@
         <div class="content">
             <p>Félicitations <strong>{{ $user->name }}</strong> ! Votre compte a été créé automatiquement suite à votre achat.</p>
             <!-- details de la formation -->
-            <h2>📚 Vos formations achetées</h2>
-            <table class="table">
-                <tr>
-                    <td>Formation</td>
-                    <td>{{ $order->course->title }}</td>
-                </tr>
-                <tr>
-                    <td>Montant</td>
-                    <td>{{ $order->amount }} {{ $order->currency }}</td>
-                </tr>
-                <tr>
-                    <td>Date d'achat</td>
-                    <td>{{ $order->created_at->format('d/m/Y') }}</td>
-                </tr>
-            </table>
+             
             <h2>🔑 Vos identifiants de connexion</h2>
             <table class="table">
                 <tr>
